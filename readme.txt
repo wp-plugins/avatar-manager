@@ -81,13 +81,14 @@ address.
 == Screenshots ==
 
 1. Avatar Manager options under the [Settings Discussion
-   Screen](http://codex.wordpress.org/Settings_Discussion_Screen).
+Screen](http://codex.wordpress.org/Settings_Discussion_Screen).
 2. Avatar Manager options under the [Users Your Profile
-   Screen](http://codex.wordpress.org/Users_Your_Profile_Screen).
+Screen](http://codex.wordpress.org/Users_Your_Profile_Screen).
 3. Avatar Manager options under the [Users Your Profile
-   Screen](http://codex.wordpress.org/Users_Your_Profile_Screen).
+Screen](http://codex.wordpress.org/Users_Your_Profile_Screen).
 
 == Changelog ==
 
 = 1.0.0 =
+
 * Initial release.
