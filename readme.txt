@@ -80,11 +80,12 @@ address.
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+1. Avatar Manager options under the [Settings Discussion
+   Screen](http://codex.wordpress.org/Settings_Discussion_Screen).
+2. Avatar Manager options under the [Users Your Profile
+   Screen](http://codex.wordpress.org/Users_Your_Profile_Screen).
+3. Avatar Manager options under the [Users Your Profile
+   Screen](http://codex.wordpress.org/Users_Your_Profile_Screen).
 
 == Changelog ==
 
