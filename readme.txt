@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: cdog
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SMKJZHX7G3VQS
-Tags: avatars, profile, users, gravatar
+Tags: avatars, gravatar, profile, users
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,6 +14,11 @@ Avatar Manager for WordPress is a sweet and simple plugin for storing avatars lo
 
 Avatar Manager for WordPress is a sweet and simple plugin for storing avatars
 locally and more. Easily.
+
+Enhance your WordPress website by letting your users choose between using
+Gravatar or a self-hosted avatar image right from their profile screen. Improved
+workflow, on-demand image generation and custom user permissions under a native
+interface. Say hello to the Avatar Manager plugin.
 
 = Get Involved =
 
@@ -87,6 +92,10 @@ address.
    Screen](http://codex.wordpress.org/Users_Your_Profile_Screen).
 
 == Changelog ==
+
+= 1.2.1 =
+
+* Action and filter hooks.
 
 = 1.2.0 =
 
