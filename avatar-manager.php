@@ -6,7 +6,7 @@
 Plugin Name: Avatar Manager
 Plugin URI: http://wordpress.org/extend/plugins/avatar-manager/
 Description: Avatar Manager for WordPress is a sweet and simple plugin for storing avatars locally and more. Easily.
-Version: 1.0.0
+Version: 1.2.2
 Author: Cătălin Dogaru
 Author URI: http://swarm.cs.pub.ro/~cdogaru/
 License: GPLv2 or later
@@ -29,7 +29,7 @@ this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
 Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-define( 'AVATAR_MANAGER_VERSION', '1.0.0' );
+define( 'AVATAR_MANAGER_VERSION', '1.2.2' );
 define( 'AVATAR_MANAGER_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'AVATAR_MANAGER_AVATAR_UPLOADS', 0 );
 define( 'AVATAR_MANAGER_DEFAULT_SIZE', 96 );
@@ -75,7 +75,7 @@ function avatar_manager_admin_init() {
 add_action( 'admin_init', 'avatar_manager_admin_init' );
 
 /**
- * Enqueues scripts and styles for dashboard.
+ * Enqueues plugin scripts and styles for Users Your Profile Screen.
  *
  * @uses wp_register_style() For registering a CSS style file.
  * @uses wp_enqueue_style() For enqueuing a CSS style file.
@@ -87,11 +87,17 @@ add_action( 'admin_init', 'avatar_manager_admin_init' );
 function avatar_manager_enqueue_scripts() {
 	global $hook_suffix;
 
-	if ( $hook_suffix == 'profile.php' ) {
+	if ( $hook_suffix == 'profile.php' || $hook_suffix == 'user-edit.php' ) {
+		// Registers plugin CSS style file.
 		wp_register_style( 'avatar-manager.css', AVATAR_MANAGER_PLUGIN_URL . 'avatar-manager.css', array(), '1.0.0' );
+
+		// Enqueues plugin CSS style file.
 		wp_enqueue_style( 'avatar-manager.css');
 
+		// Registers plugin JS script file.
 		wp_register_script( 'avatar-manager.js', AVATAR_MANAGER_PLUGIN_URL . 'avatar-manager.js', array( 'jquery' ), '1.0.0' );
+
+		// Enqueues plugin JS script file.
 		wp_enqueue_script( 'avatar-manager.js' );
 	}
 }
@@ -288,7 +294,8 @@ function avatar_manager_edit_user_profile( $profileuser ) {
 						$href = esc_attr( add_query_arg( array(
 							'action'                       => 'update',
 							'avatar_manager_action'        => 'remove-avatar',
-							'avatar_manager_custom_avatar' => $profileuser->avatar_manager_custom_avatar
+							'avatar_manager_custom_avatar' => $profileuser->avatar_manager_custom_avatar,
+							'user_id'                      => $profileuser->ID
 						),
 						self_admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) ) );
 						?>
@@ -385,6 +392,7 @@ add_action( 'edit_user_profile', 'avatar_manager_edit_user_profile' );
  * loading a file into it.
  * @uses is_wp_error() For checking whether the passed variable is a WordPress
  * Error.
+ * @uses do_action() For calling the functions added to an action hook.
  *
  * @since Avatar Manager 1.0.0
  *
@@ -427,6 +435,9 @@ function avatar_manager_avatar_resize( $url, $size ) {
 		}
 	}
 
+	// Calls the functions added to avatar_manager_avatar_resize action hook.
+	do_action( 'avatar_manager_avatar_resize', $url, $size );
+
 	return $avatar;
 }
 
@@ -439,6 +450,7 @@ function avatar_manager_avatar_resize( $url, $size ) {
  * @uses delete_post_meta() For deleting attachment meta fields.
  * @uses get_users() For retrieving an array of users.
  * @uses delete_user_meta() For deleting user meta fields.
+ * @uses do_action() For calling the functions added to an action hook.
  *
  * @since Avatar Manager 1.0.0
  *
@@ -485,6 +497,9 @@ function avatar_manager_delete_avatar( $attachment_id ) {
 		delete_user_meta( $user->ID, 'avatar_manager_avatar_type' );
 		delete_user_meta( $user->ID, 'avatar_manager_custom_avatar' );
 	}
+
+	// Calls the functions added to avatar_manager_delete_avatar action hook.
+	do_action( 'avatar_manager_delete_avatar', $attachment_id );
 }
 
 add_action( 'delete_attachment', 'avatar_manager_delete_avatar' );
@@ -645,9 +660,8 @@ add_action( 'personal_options_update', 'avatar_manager_edit_user_profile_update'
  *
  * @uses get_option() For getting values for a named option.
  * @uses avatar_manager_get_options() For retreiveing plugin options.
+ * @uses get_userdata() For retrieving user data by user ID.
  * @uses is_ssl() For checking if SSL is being used.
- * @uses includes_url() For retrieving the url to the includes area for the
- * current site with the appropriate protocol.
  * @uses add_query_arg() For retrieving a modified URL (with) query string.
  * @uses esc_attr() For escaping HTML attributes.
  * @uses get_user_meta() For retrieving user meta fields.
@@ -657,6 +671,7 @@ add_action( 'personal_options_update', 'avatar_manager_edit_user_profile_update'
  * @uses avatar_manager_avatar_resize() For generating a resized copy of the
  * specified avatar image.
  * @uses update_post_meta() For updating attachment meta fields.
+ * @uses apply_filters() For calling the functions added to a filter hook.
  *
  * @since Avatar Manager 1.0.0
  *
@@ -668,6 +683,7 @@ add_action( 'personal_options_update', 'avatar_manager_edit_user_profile_update'
  * @return string <img> tag for the user's avatar.
  */
 function avatar_manager_get_custom_avatar( $user_id, $size = '', $default = '', $alt = false ) {
+	// Returns if showing avatars is not enabled.
 	if ( ! get_option( 'show_avatars' ) )
 		return false;
 
@@ -685,6 +701,15 @@ function avatar_manager_get_custom_avatar( $user_id, $size = '', $default = '', 
 			$size = 512;
 	}
 
+	// Retrieves user data by user ID.
+	$user = get_userdata( $user_id );
+
+	// Returns if no user data was retrieved.
+	if ( empty( $user ) )
+		return false;
+
+	$email = $user->user_email;
+
 	if ( empty( $default ) ) {
 		// Retieves values for the named option.
 		$avatar_default = get_option( 'avatar_default' );
@@ -695,24 +720,20 @@ function avatar_manager_get_custom_avatar( $user_id, $size = '', $default = '', 
 			$default = $avatar_default;
 	}
 
+	$email_hash = md5( strtolower( trim( $email ) ) );
+
 	if ( is_ssl() )
 		$host = 'https://secure.gravatar.com';
 	else
-		$host = 'http://0.gravatar.com';
+		$host = sprintf( 'http://%d.gravatar.com', ( hexdec( $email_hash[0] ) % 2 ) );
 
 	if ( $default == 'mystery' )
 		$default = $host . '/avatar/ad516503a11cd5ca435acc9bb6523536?s=' . $size;
-	elseif ( $default == 'blank' )
-		// Retrieves the url to the includes area for the current site with the
-		// appropriate protocol.
-		$default = includes_url( 'images/blank.gif' );
 	elseif ( $default == 'gravatar_default' )
-		$default = $host . '/avatar/?s=' . $size;
+		$default = '';
 	elseif ( strpos( $default, 'http://' ) === 0 )
 		// Retrieves a modified URL (with) query string.
 		$default = add_query_arg( 's', $size, $default );
-	else
-		$default = $host . '/avatar/?d=' . $default . '&amp;s=' . $size;
 
 	if ( $alt === false )
 		$alt = '';
@@ -726,6 +747,7 @@ function avatar_manager_get_custom_avatar( $user_id, $size = '', $default = '', 
 	// Retreieves user meta field based on user ID.
 	$custom_avatar = get_user_meta( $user_id, 'avatar_manager_custom_avatar', true );
 
+	// Returns if no attachment ID was retrieved.
 	if ( empty( $custom_avatar ) )
 		return false;
 
@@ -756,10 +778,18 @@ function avatar_manager_get_custom_avatar( $user_id, $size = '', $default = '', 
 		$src    = $avatar[ $size ]['url'];
 		$avatar = '<img alt="' . $alt . '" class="avatar avatar-' . $size . ' photo avatar-default" height="' . $size . '" src="' . $src . '" width="' . $size . '">';
 	} else {
-		$avatar = '<img alt="' . $alt . '" class="avatar avatar-' . $size . ' photo avatar-default" height="' . $size . '" src="' . $default . '" width="' . $size . '">';
+		$src  = $host . '/avatar/';
+		$src .= $email_hash;
+		$src .= '?s=' . $size;
+		$src .= '&amp;d=' . urlencode( $default );
+		$src .= '&amp;forcedefault=1';
+
+		$avatar = '<img alt="' . $alt . '" class="avatar avatar-' . $size . ' photo avatar-default" height="' . $size . '" src="' . $src . '" width="' . $size . '">';
 	}
 
-	return $avatar;
+	// Calls the functions added to avatar_manager_get_custom_avatar
+	// filter hook.
+	return apply_filters( 'avatar_manager_get_custom_avatar', $avatar, $user_id, $size, $default, $alt );
 }
 
 /**
@@ -770,6 +800,7 @@ function avatar_manager_get_custom_avatar( $user_id, $size = '', $default = '', 
  * @uses get_userdata() For retrieving user data by user ID.
  * @uses avatar_manager_get_custom_avatar() For retrieving user custom avatar
  * based on user ID.
+ * @uses apply_filters() For calling the functions added to a filter hook.
  *
  * @since Avatar Manager 1.0.0
  *
@@ -782,6 +813,7 @@ function avatar_manager_get_custom_avatar( $user_id, $size = '', $default = '', 
  * @return string <img> tag for the user's avatar.
  */
 function avatar_manager_get_avatar( $avatar = '', $id_or_email, $size = '', $default = '', $alt = false ) {
+	// Returns if showing avatars is not enabled.
 	if ( ! get_option( 'show_avatars' ) )
 		return false;
 
@@ -838,7 +870,8 @@ function avatar_manager_get_avatar( $avatar = '', $id_or_email, $size = '', $def
 		// Retrieves user custom avatar based on user ID.
 		$avatar = avatar_manager_get_custom_avatar( $user->ID, $size, $default, $alt );
 
-	return $avatar;
+	// Calls the functions added to avatar_manager_get_avatar filter hook.
+	return apply_filters( 'avatar_manager_get_avatar', $avatar, $id_or_email, $size, $default, $alt );
 }
 
 add_filter( 'get_avatar', 'avatar_manager_get_avatar', 10, 5 );
@@ -861,5 +894,32 @@ function avatar_manager_avatar_defaults( $avatar_defaults ) {
 	return $avatar_defaults;
 }
 
-add_filter( 'avatar_defaults', 'avatar_manager_avatar_defaults' );
+add_filter( 'avatar_defaults', 'avatar_manager_avatar_defaults', 10, 1 );
+
+/**
+ * Displays media states for avatar images.
+ *
+ * @uses get_post_meta() For retreieving attachment meta fields.
+ * @uses apply_filters() For calling the functions added to a filter hook.
+ *
+ * @since Avatar Manager 1.2.0
+ *
+ * @param array $media_states An associative array with media states.
+ * @return array An associative array with media states.
+ */
+function avatar_manager_display_media_states( $media_states ) {
+	global $post;
+
+	// Retreieves attachment meta field based on attachment ID.
+	$meta_avatar = get_post_meta( $post->ID, '_avatar_manager_is_custom_avatar', true );
+
+	if ( ! empty( $meta_avatar ) )
+		$media_states[] = __( 'Avatar Image', 'avatar-manager' );
+
+	// Calls the functions added to avatar_manager_display_media_states filter
+	// hook.
+	return apply_filters( 'avatar_manager_display_media_states', $media_states );
+}
+
+add_filter( 'display_media_states', 'avatar_manager_display_media_states', 10, 1 );
 ?>
