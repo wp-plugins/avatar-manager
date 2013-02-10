@@ -6,7 +6,7 @@
 Plugin Name: Avatar Manager
 Plugin URI: http://wordpress.org/extend/plugins/avatar-manager/
 Description: Avatar Manager for WordPress is a sweet and simple plugin for storing avatars locally and more. Easily.
-Version: 1.2.1
+Version: 1.2.2
 Author: Cătălin Dogaru
 Author URI: http://swarm.cs.pub.ro/~cdogaru/
 License: GPLv2 or later
@@ -29,7 +29,7 @@ this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
 Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-define( 'AVATAR_MANAGER_VERSION', '1.2.1' );
+define( 'AVATAR_MANAGER_VERSION', '1.2.2' );
 define( 'AVATAR_MANAGER_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'AVATAR_MANAGER_AVATAR_UPLOADS', 0 );
 define( 'AVATAR_MANAGER_DEFAULT_SIZE', 96 );
@@ -87,7 +87,7 @@ add_action( 'admin_init', 'avatar_manager_admin_init' );
 function avatar_manager_enqueue_scripts() {
 	global $hook_suffix;
 
-	if ( $hook_suffix == 'profile.php' ) {
+	if ( $hook_suffix == 'profile.php' || $hook_suffix == 'user-edit.php' ) {
 		// Registers plugin CSS style file.
 		wp_register_style( 'avatar-manager.css', AVATAR_MANAGER_PLUGIN_URL . 'avatar-manager.css', array(), '1.0.0' );
 
@@ -294,7 +294,8 @@ function avatar_manager_edit_user_profile( $profileuser ) {
 						$href = esc_attr( add_query_arg( array(
 							'action'                       => 'update',
 							'avatar_manager_action'        => 'remove-avatar',
-							'avatar_manager_custom_avatar' => $profileuser->avatar_manager_custom_avatar
+							'avatar_manager_custom_avatar' => $profileuser->avatar_manager_custom_avatar,
+							'user_id'                      => $profileuser->ID
 						),
 						self_admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) ) );
 						?>
