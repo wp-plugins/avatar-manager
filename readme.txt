@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: cdog
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SMKJZHX7G3VQS
-Tags: avatars, gravatar, profile, users
+Tags: avatars, gravatar, profile, users, xml-rpc
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,11 @@ address.
    Screen](http://codex.wordpress.org/Users_Your_Profile_Screen).
 
 == Changelog ==
+
+= 1.3.0 =
+
+* XML-RPC support.
+* Minor bug fixes.
 
 = 1.2.2 =
 
