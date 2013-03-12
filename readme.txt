@@ -1,20 +1,34 @@
 === Plugin Name ===
 Contributors: cdog
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SMKJZHX7G3VQS
-Tags: avatars, profile, users, gravatar
+Tags: avatars, gravatar, profile, users, xml-rpc
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.0.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Avatar Manager for WordPress is a sweet and simple plugin for storing avatars
-locally and more. Easily.
+Avatar Manager for WordPress is a sweet and simple plugin for storing avatars locally and more. Easily.
 
 == Description ==
 
 Avatar Manager for WordPress is a sweet and simple plugin for storing avatars
 locally and more. Easily.
+
+Enhance your WordPress website by letting your users choose between using
+Gravatar or a self-hosted avatar image right from their profile screen. Improved
+workflow, on-demand image generation and custom user permissions under a native
+interface. Say hello to the Avatar Manager plugin.
+
+= How It's Made =
+
+Want to find out how Avatar Manager is built? Make sure to read the following
+resources.
+
+**Wptuts+**
+
++ [How to Create a WordPress Avatar Management Plugin from Scratch: Getting Started](http://wp.tutsplus.com/tutorials/plugins/how-to-create-a-wordpress-avatar-management-plugin-from-scratch-getting-started/)
++ [How to Create a WordPress Avatar Management Plugin from Scratch: Finishing Touches](http://wp.tutsplus.com/tutorials/plugins/how-to-create-a-wordpress-avatar-management-plugin-from-scratch-finishing-touches/)
 
 = Get Involved =
 
@@ -89,5 +103,28 @@ address.
 
 == Changelog ==
 
+= 1.3.0 =
+
+* XML-RPC support.
+* Minor bug fixes.
+
+= 1.2.2 =
+
+* Minor bug fixes.
+
+= 1.2.1 =
+
+* Action and filter hooks.
+
+= 1.2.0 =
+
+* Media states.
+
+= 1.1.0 =
+
+* Romanian localization.
+* Minor bug fixes.
+
 = 1.0.0 =
+
 * Initial release.
