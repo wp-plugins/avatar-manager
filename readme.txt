@@ -20,13 +20,31 @@ Gravatar or a self-hosted avatar image right from their profile screen. Improved
 workflow, on-demand image generation and custom user permissions under a native
 interface. Say hello to the Avatar Manager plugin.
 
+= How It's Made =
+
+Want to find out how Avatar Manager is built? Make sure to read the following
+resources.
+
+**Wptuts+**
+
++ [How to Create a WordPress Avatar Management Plugin from Scratch: Getting Started](http://wp.tutsplus.com/tutorials/plugins/how-to-create-a-wordpress-avatar-management-plugin-from-scratch-getting-started/)
++ [How to Create a WordPress Avatar Management Plugin from Scratch: Finishing Touches](http://wp.tutsplus.com/tutorials/plugins/how-to-create-a-wordpress-avatar-management-plugin-from-scratch-finishing-touches/)
+
 = Get Involved =
 
-Have a bug or a feature request? [Please open a new
-issue](https://github.com/cdog/avatar-manager/issues). Before opening any issue,
-please search for existing issues and read the [Issue
+**Thank you for choosing to contribute to Avatar Manager!**
+
+Have a bug or a feature request? Please [open a new
+issue](https://github.com/resourcestream/avatar-manager/issues). Before opening
+any issue, please search for existing issues and read the [Issue
 Guidelines](https://github.com/necolas/issue-guidelines), written by [Nicolas
-Gallagher](https://github.com/necolas/).
+Gallagher](https://github.com/necolas/). Please submit all pull requests against
+dev branches.
+
+Avatar Manager is a user-driven project, and all developments and enhancements
+depend on users like **you**!
+
++ [Avatar Manager on GitHub](https://github.com/resourcestream/avatar-manager)
 
 = Copyright and License =
 
