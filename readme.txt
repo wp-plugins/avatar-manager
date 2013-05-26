@@ -32,11 +32,19 @@ resources.
 
 = Get Involved =
 
-Have a bug or a feature request? [Please open a new
-issue](https://github.com/cdog/avatar-manager/issues). Before opening any issue,
-please search for existing issues and read the [Issue
+**Thank you for choosing to contribute to Avatar Manager!**
+
+Have a bug or a feature request? Please [open a new
+issue](https://github.com/resourcestream/avatar-manager/issues). Before opening
+any issue, please search for existing issues and read the [Issue
 Guidelines](https://github.com/necolas/issue-guidelines), written by [Nicolas
-Gallagher](https://github.com/necolas/).
+Gallagher](https://github.com/necolas/). Please submit all pull requests against
+dev branches.
+
+Avatar Manager is a user-driven project, and all developments and enhancements
+depend on users like **you**!
+
++ [Avatar Manager on GitHub](https://github.com/resourcestream/avatar-manager)
 
 = Copyright and License =
 
