@@ -4,11 +4,11 @@
  */
 /*
 Plugin Name: Avatar Manager
-Plugin URI: http://wordpress.org/extend/plugins/avatar-manager/
+Plugin URI: http://wordpress.org/plugins/avatar-manager/
 Description: Avatar Manager for WordPress is a sweet and simple plugin for storing avatars locally and more. Easily.
-Version: 1.3.0
+Version: 1.4.0
 Author: Cătălin Dogaru
-Author URI: http://swarm.cs.pub.ro/~cdogaru/
+Author URI: http://cdog.dunked.com/
 License: GPLv2 or later
 */
 
@@ -29,7 +29,7 @@ this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
 Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-define( 'AVATAR_MANAGER_VERSION', '1.3.0' );
+define( 'AVATAR_MANAGER_VERSION', '1.4.0' );
 define( 'AVATAR_MANAGER_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'AVATAR_MANAGER_AVATAR_UPLOADS', 0 );
 define( 'AVATAR_MANAGER_DEFAULT_SIZE', 96 );
@@ -266,7 +266,7 @@ function avatar_manager_edit_user_profile( $profileuser ) {
 						</label>
 					<?php endif; ?>
 					<?php
-					if ( $user_has_custom_avatar && ( current_user_can( 'upload_files' ) || $options['avatar_uploads'] ) ) {
+					if ( is_admin() && $user_has_custom_avatar && ( current_user_can( 'upload_files' ) || $options['avatar_uploads'] ) ) {
 						$href = esc_attr( add_query_arg( array(
 							'action'                       => 'update',
 							'avatar_manager_action'        => 'remove-avatar',
@@ -301,7 +301,7 @@ function avatar_manager_edit_user_profile( $profileuser ) {
 						</label><!-- .description -->
 						<br>
 						<input name="avatar_manager_import" type="file">
-						<?php submit_button( __( 'Upload', 'avatar-manager' ), 'button', 'avatar-manager-upload-avatar', false ); ?>
+						<input class="button" id="avatar-manager-upload-avatar" name="avatar-manager-upload-avatar" type="submit" value="<?php esc_attr_e( 'Upload', 'avatar-manager' ); ?>">
 					</fieldset>
 				</td>
 			</tr>
@@ -371,7 +371,7 @@ add_action( 'edit_user_profile', 'avatar_manager_edit_user_profile' );
 function avatar_manager_admin_enqueue_scripts() {
 	global $hook_suffix;
 
-	if ( $hook_suffix == 'profile.php' || $hook_suffix == 'user-edit.php' ) {
+	if ( ! is_admin() || in_array( $hook_suffix, array( 'profile.php', 'user-edit.php' ) ) ) {
 		// Registers plugin CSS style file.
 		wp_register_style( 'avatar-manager.css', AVATAR_MANAGER_PLUGIN_URL . 'avatar-manager.css', array(), '1.0.0' );
 
@@ -387,6 +387,7 @@ function avatar_manager_admin_enqueue_scripts() {
 }
 
 add_action( 'admin_enqueue_scripts', 'avatar_manager_admin_enqueue_scripts' );
+add_action( 'wp_enqueue_scripts', 'avatar_manager_admin_enqueue_scripts' );
 
 /**
  * Generates a resized copy of the specified avatar image.
@@ -566,6 +567,9 @@ function avatar_manager_edit_user_profile_update( $user_id ) {
 	if ( isset( $_POST['avatar-manager-upload-avatar'] ) && $_POST['avatar-manager-upload-avatar'] ) {
 		if ( ! function_exists( 'wp_handle_upload' ) )
 			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+
+		if ( ! is_admin() )
+			require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
 		// An associative array with allowed MIME types.
 		$mimes = array(
@@ -948,7 +952,7 @@ function avatar_manager_deleteCustomAvatar( $args ) {
 	global $wp_xmlrpc_server;
 
 	if ( count( $args ) < 2 )
-		return new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.', 'avatar_manager' ) );
+		return new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.', 'avatar-manager' ) );
 
 	// Sanitizes the string or array of strings from user input.
 	$wp_xmlrpc_server->escape( $args );
@@ -964,7 +968,7 @@ function avatar_manager_deleteCustomAvatar( $args ) {
 
 	// Returns if no attachment ID was retrieved.
 	if ( empty( $custom_avatar ) )
-		return new IXR_Error( 404, __( 'Sorry, you don\'t have a custom avatar.', 'avatar_manager' ) );
+		return new IXR_Error( 404, __( 'Sorry, you don\'t have a custom avatar.', 'avatar-manager' ) );
 
 	// Calls the functions added to xmlrpc_call action hook.
 	do_action( 'xmlrpc_call', 'avatarManager.deleteCustomAvatar' );
@@ -990,7 +994,7 @@ function avatar_manager_getAvatarType( $args ) {
 	global $wp_xmlrpc_server;
 
 	if ( count( $args ) < 2 )
-		return new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.', 'avatar_manager' ) );
+		return new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.', 'avatar-manager' ) );
 
 	// Sanitizes the string or array of strings from user input.
 	$wp_xmlrpc_server->escape( $args );
@@ -1033,7 +1037,7 @@ function avatar_manager_getCustomAvatar( $args ) {
 	global $wp_xmlrpc_server;
 
 	if ( count( $args ) < 2 )
-		return new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.', 'avatar_manager' ) );
+		return new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.', 'avatar-manager' ) );
 
 	// Sanitizes the string or array of strings from user input.
 	$wp_xmlrpc_server->escape( $args );
@@ -1052,7 +1056,7 @@ function avatar_manager_getCustomAvatar( $args ) {
 
 	// Returns if no attachment ID was retrieved.
 	if ( empty( $custom_avatar ) )
-		return new IXR_Error( 404, __( 'Sorry, you don\'t have a custom avatar.', 'avatar_manager' ) );
+		return new IXR_Error( 404, __( 'Sorry, you don\'t have a custom avatar.', 'avatar-manager' ) );
 
 	// Calls the functions added to xmlrpc_call action hook.
 	do_action( 'xmlrpc_call', 'avatarManager.getCustomAvatar' );
@@ -1083,7 +1087,7 @@ function avatar_manager_setAvatarType( $args ) {
 	global $wp_xmlrpc_server;
 
 	if ( count( $args ) < 3 )
-		return new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.', 'avatar_manager' ) );
+		return new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.', 'avatar-manager' ) );
 
 	// Sanitizes the string or array of strings from user input.
 	$wp_xmlrpc_server->escape( $args );
@@ -1096,7 +1100,7 @@ function avatar_manager_setAvatarType( $args ) {
 		return $wp_xmlrpc_server->error;
 
 	if ( ! in_array(  $avatar_type, array( 'gravatar', 'custom' ) ) )
-		return new IXR_Error( 401, __( 'Invalid avatar type.', 'avatar_manager' ) );
+		return new IXR_Error( 401, __( 'Invalid avatar type.', 'avatar-manager' ) );
 
 	// Retrieves user meta field based on user ID.
 	$custom_avatar = get_user_meta( $user->ID, 'avatar_manager_custom_avatar', true );
@@ -1104,7 +1108,7 @@ function avatar_manager_setAvatarType( $args ) {
 	// Returns if no attachment ID was retrieved and requested avatar type is
 	// set to custom.
 	if ( empty( $custom_avatar ) && $avatar_type == 'custom' )
-		return new IXR_Error( 404, __( 'Sorry, you don\'t have a custom avatar.', 'avatar_manager' ) );
+		return new IXR_Error( 404, __( 'Sorry, you don\'t have a custom avatar.', 'avatar-manager' ) );
 
 	// Calls the functions added to xmlrpc_call action hook.
 	do_action( 'xmlrpc_call', 'avatarManager.setAvatarType' );
@@ -1132,7 +1136,7 @@ function avatar_manager_setCustomAvatarRating( $args ) {
 	global $wp_xmlrpc_server;
 
 	if ( count( $args ) < 3 )
-		return new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.', 'avatar_manager' ) );
+		return new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.', 'avatar-manager' ) );
 
 	// Sanitizes the string or array of strings from user input.
 	$wp_xmlrpc_server->escape( $args );
@@ -1145,14 +1149,14 @@ function avatar_manager_setCustomAvatarRating( $args ) {
 		return $wp_xmlrpc_server->error;
 
 	if ( ! in_array(  $custom_avatar_rating, array( 'G', 'PG', 'R', 'X' ) ) )
-		return new IXR_Error( 401, __( 'Invalid custom avatar rating.', 'avatar_manager' ) );
+		return new IXR_Error( 401, __( 'Invalid custom avatar rating.', 'avatar-manager' ) );
 
 	// Retrieves user meta field based on user ID.
 	$custom_avatar = get_user_meta( $user->ID, 'avatar_manager_custom_avatar', true );
 
 	// Returns if no attachment ID was retrieved.
 	if ( empty( $custom_avatar ) )
-		return new IXR_Error( 404, __( 'Sorry, you don\'t have a custom avatar.', 'avatar_manager' ) );
+		return new IXR_Error( 404, __( 'Sorry, you don\'t have a custom avatar.', 'avatar-manager' ) );
 
 	// Calls the functions added to xmlrpc_call action hook.
 	do_action( 'xmlrpc_call', 'avatarManager.setCustomAvatarRating' );
@@ -1196,7 +1200,7 @@ function avatar_manager_uploadCustomAvatar( $args ) {
 	global $wpdb, $wp_xmlrpc_server;
 
 	if ( count( $args ) < 3 )
-		return new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.', 'avatar_manager' ) );
+		return new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.', 'avatar-manager' ) );
 
 	$username = $wpdb->escape($args[0]);
 	$password = $wpdb->escape($args[1]);
@@ -1209,7 +1213,7 @@ function avatar_manager_uploadCustomAvatar( $args ) {
 	$options = avatar_manager_get_options();
 
 	if ( ! current_user_can( 'upload_files' ) && ! $options['avatar_uploads'] )
-		return new IXR_Error( 401, __( 'Sorry, you don\'t have permission to upload files.', 'avatar_manager' ) );
+		return new IXR_Error( 401, __( 'Sorry, you don\'t have permission to upload files.', 'avatar-manager' ) );
 
 	if ( $upload_error = apply_filters( 'pre_upload_error', false ) )
 		return new IXR_Error( 500, $upload_error );
@@ -1230,7 +1234,7 @@ function avatar_manager_uploadCustomAvatar( $args ) {
 	);
 
 	if ( ! in_array( $avatar['type'], $mimes ) )
-		return new IXR_Error( 401, __( 'Sorry, this file type is not permitted for security reasons.', 'avatar_manager' ) );
+		return new IXR_Error( 401, __( 'Sorry, this file type is not permitted for security reasons.', 'avatar-manager' ) );
 
 	// Creates a file in the upload folder with given content.
 	$upload = wp_upload_bits( $filename, null, $avatar['bits'] );
