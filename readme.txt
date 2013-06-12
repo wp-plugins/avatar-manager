@@ -46,6 +46,13 @@ depend on users like **you**!
 
 + [Avatar Manager on GitHub](https://github.com/resourcestream/avatar-manager)
 
+= Authors =
+
+**Cătălin Dogaru**
+
++ http://twitter.com/resourcestream
++ http://github.com/cdog
+
 = Contributors =
 
 [Artem Frolov](http://profiles.wordpress.org/dikiy_forester/)
