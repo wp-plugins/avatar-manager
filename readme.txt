@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: avatars, gravatar, profile, users, xml-rpc
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,10 @@ Avatar Manager is a user-driven project, and all developments and enhancements
 depend on users like **you**!
 
 + [Avatar Manager on GitHub](https://github.com/resourcestream/avatar-manager)
+
+= Contributors =
+
+[Artem Frolov](http://profiles.wordpress.org/dikiy_forester/)
 
 = Copyright and License =
 
@@ -110,6 +114,12 @@ address.
    Screen](http://codex.wordpress.org/Users_Your_Profile_Screen).
 
 == Changelog ==
+
+= 1.4.0 =
+
+* Front-end support.
+* Russian localization.
+* Minor bug fixes.
 
 = 1.3.0 =
 
