@@ -53,7 +53,7 @@ depend on users like **you**!
 + http://twitter.com/resourcestream
 + http://github.com/cdog
 
-= Contributors =
+= Contributing Developers =
 
 Avatar Manager is brought to you by these fine folks.
 
