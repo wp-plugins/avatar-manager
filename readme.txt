@@ -3,8 +3,8 @@ Contributors: cdog
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SMKJZHX7G3VQS
 Tags: avatars, gravatar, profile, users, xml-rpc
 Requires at least: 3.5
-Tested up to: 3.5.1
-Stable tag: 1.4.0
+Tested up to: 3.5.2
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,7 +57,9 @@ depend on users like **you**!
 
 Avatar Manager is brought to you by these fine folks.
 
-[Artem Frolov](http://profiles.wordpress.org/dikiy_forester/)
+[Artem Frolov](http://profiles.wordpress.org/dikiy_forester/),
+[Guy Steyaert](http://profiles.wordpress.org/ideos/),
+[Pieter Goosen](http://profiles.wordpress.org/pietergoosen)
 
 = Copyright and License =
 
@@ -123,6 +125,12 @@ address.
    Screen](http://codex.wordpress.org/Users_Your_Profile_Screen).
 
 == Changelog ==
+
+= 1.5.0 =
+
++ Multisite support.
++ Dutch localization.
++ Afrikaans localization.
 
 = 1.4.0 =
 
