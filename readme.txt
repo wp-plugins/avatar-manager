@@ -3,7 +3,7 @@ Contributors: cdog
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SMKJZHX7G3VQS
 Tags: avatars, gravatar, profile, users, xml-rpc
 Requires at least: 3.5
-Tested up to: 3.6
+Tested up to: 4.1
 Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
