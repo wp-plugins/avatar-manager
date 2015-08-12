@@ -3,8 +3,8 @@ Contributors: cdog
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SMKJZHX7G3VQS
 Tags: avatars, gravatar, profile, users, xml-rpc
 Requires at least: 3.5
-Tested up to: 4.1
-Stable tag: 1.5.1
+Tested up to: 4.3
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,15 +20,14 @@ Gravatar or a self-hosted avatar image right from their profile screen. Improved
 workflow, on-demand image generation and custom user permissions under a native
 interface. Say hello to the Avatar Manager plugin.
 
-= How It's Made =
+= How It’s Made =
 
 Want to find out how Avatar Manager is built? Make sure to read the following
 resources.
 
-**Wptuts+**
+**Tuts+ Code**
 
-+ [How to Create a WordPress Avatar Management Plugin from Scratch: Getting Started](http://wp.tutsplus.com/tutorials/plugins/how-to-create-a-wordpress-avatar-management-plugin-from-scratch-getting-started/)
-+ [How to Create a WordPress Avatar Management Plugin from Scratch: Finishing Touches](http://wp.tutsplus.com/tutorials/plugins/how-to-create-a-wordpress-avatar-management-plugin-from-scratch-finishing-touches/)
++ [How to Create a WordPress Avatar Management Plugin from Scratch](http://code.tutsplus.com/series/how-to-create-a-wordpress-avatar-management-plugin-from-scratch--wp-33866)
 
 = Get Involved =
 
@@ -57,14 +56,19 @@ depend on users like **you**!
 
 Avatar Manager is brought to you by these fine folks.
 
-[Artem Frolov](http://profiles.wordpress.org/dikiy_forester/),
-[Guy Steyaert](http://profiles.wordpress.org/ideos/),
-[Pieter Goosen](http://profiles.wordpress.org/pietergoosen),
-[Snowboard Mommy](http://profiles.wordpress.org/snowboardmommy/)
+[Artem Frolov](https://profiles.wordpress.org/dikiy_forester),
+[Brice Capobianco](https://profiles.wordpress.org/brikou),
+[Guy Steyaert](https://profiles.wordpress.org/ideos),
+[Johan Steen](https://profiles.wordpress.org/artstorm),
+[Lucas Uzan](https://profiles.wordpress.org/wiiz83),
+[Mateus Neves](https://profiles.wordpress.org/mateusneves),
+[Pieter Goosen](https://profiles.wordpress.org/pietergoosen),
+[Samantha Muthiah](https://profiles.wordpress.org/schm168),
+[Snowboard Mommy](https://profiles.wordpress.org/snowboardmommy)
 
 = Copyright and License =
 
-Copyright © 2013 Cătălin Dogaru
+Copyright © 2013-2015 Cătălin Dogaru
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -116,6 +120,29 @@ WordPress built-in
 function to retrieve the avatar for a user who provided a user ID or email
 address.
 
+= Can I create a default custom avatar? =
+
+Yes, you can easily add your own by adding a filter to the `avatar_defaults`
+hook. After uploading the new image to your theme files, add this to your
+theme’s `function.php` file:
+
+`
+<?php
+function custom_avatar_defaults ( $avatar_defaults ) {
+	$avatar_url = get_bloginfo( 'template_directory' ) . '/images/avatar-default.png';
+	$avatar_defaults[$avatar_url] = __( 'Custom Default Avatar', 'mytextdomain' );
+
+	return $avatar_defaults;
+}
+
+add_filter( 'avatar_defaults', 'custom_avatar_defaults' );
+?>
+`
+
+Now, go to [Settings Discussion
+Screen](http://codex.wordpress.org/Settings_Discussion_Screen) and select your
+new avatar from the list.
+
 == Screenshots ==
 
 1. Avatar Manager options under the [Settings Discussion
@@ -126,6 +153,14 @@ address.
    Screen](http://codex.wordpress.org/Users_Your_Profile_Screen).
 
 == Changelog ==
+
+= 1.6.0 =
+
++ Media Library support.
++ Action and filter hooks.
++ Brazilian Portuguese localization.
++ French localization.
++ Major bug fixes.
 
 = 1.5.1 =
 
