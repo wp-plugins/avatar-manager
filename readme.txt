@@ -92,7 +92,7 @@ Installation is simple as peas.
 2. After activating Avatar Manager, you will be able to customize the plugin
    options under the [Settings Discussion
    Screen](http://codex.wordpress.org/Settings_Discussion_Screen).
-3. That's it. You're ready to go!
+3. That’s it. You’re ready to go!
 
 == Frequently Asked Questions ==
 
